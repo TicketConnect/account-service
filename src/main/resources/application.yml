@@ -1,0 +1,28 @@
+server:
+  port: 7000
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: account-service
+  data:
+    mongodb:
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      uri: ${MONGO_URI}
+  config:
+    import:
+      - optional:file:./variables-local.properties
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: WARN
+    org.hibernate: ERROR
+    com.ticketconnect.accountservice: INFO
