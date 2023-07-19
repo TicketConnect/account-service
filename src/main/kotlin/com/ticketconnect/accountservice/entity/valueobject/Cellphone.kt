@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.domain.valueobject
+package com.ticketconnect.accountservice.entity.valueobject
 
 data class Cellphone(private val cellphone: String) {
 

@@ -1,7 +1,8 @@
-package com.ticketconnect.accountservice.controller.response
+package com.ticketconnect.accountservice.web.response
 
 
 data class CreatedUserResponse(
+    val accountNumber: String,
     val name: String,
     val lastName: String,
     val email: String,

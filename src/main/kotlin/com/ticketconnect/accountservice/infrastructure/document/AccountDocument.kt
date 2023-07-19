@@ -1,22 +1,18 @@
 package com.ticketconnect.accountservice.infrastructure.document
 
-import com.ticketconnect.accountservice.domain.Account
-import com.ticketconnect.accountservice.domain.valueobject.Cellphone
-import com.ticketconnect.accountservice.domain.valueobject.Email
-import com.ticketconnect.accountservice.domain.valueobject.Password
-import org.springframework.data.annotation.Id
+import com.ticketconnect.accountservice.entity.Account
+import com.ticketconnect.accountservice.entity.valueobject.Cellphone
+import com.ticketconnect.accountservice.entity.valueobject.Email
+import com.ticketconnect.accountservice.entity.valueobject.Password
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.util.*
-import javax.annotation.processing.Generated
 
 @Document
 data class AccountDocument(
-    @Id
-    @Generated("uuid")
     @Indexed(unique = true)
-    val id: UUID,
+    var accountNumber: String,
     @Field("name")
     val name: String,
     @Field("last_name")
@@ -28,12 +24,12 @@ data class AccountDocument(
     @Field("gender")
     val gender: String,
     @Field("password")
-    val password: String
+    var password: String
 ) {
     companion object {
         fun AccountDocument.toDomain(): Account = (
                 Account(
-                    id = this.id,
+                    id = UUID.fromString(this.accountNumber),
                     name = this.name,
                     lastName = this.lastName,
                     email = Email(this.email),
@@ -44,7 +40,7 @@ data class AccountDocument(
 
         fun Account.toDocument(): AccountDocument = (
                 AccountDocument(
-                    id = this.id,
+                    accountNumber =  this.id.toString(),
                     name = this.name,
                     lastName = this.lastName,
                     email = this.email.getEmailValue(),

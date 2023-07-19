@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.domain.valueobject
+package com.ticketconnect.accountservice.entity.valueobject
 
 data class Email(private val email: String) {
     init {
