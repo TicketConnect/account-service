@@ -1,12 +1,15 @@
 package com.ticketconnect.accountservice.service.impl
 
 import com.ticketconnect.accountservice.commons.exception.AccountAlreadyExistsException
+import com.ticketconnect.accountservice.commons.exception.AccountNotFoundException
+import com.ticketconnect.accountservice.infrastructure.document.AccountDocument
 import com.ticketconnect.accountservice.web.request.CreateUserRequest
 import com.ticketconnect.accountservice.web.request.CreateUserRequest.Companion.toDocument
 import com.ticketconnect.accountservice.web.response.CreatedUserResponse
 import com.ticketconnect.accountservice.infrastructure.repository.AccountMongoRepository
 import com.ticketconnect.accountservice.security.JwtService
 import com.ticketconnect.accountservice.service.AuthService
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -18,17 +21,18 @@ class AuthServiceImpl(
     private val accountMongoRepository: AccountMongoRepository
 ): AuthService {
 
-    val logger = LoggerFactory.getLogger(AuthServiceImpl::class.java)
-    override fun createAccount(creeateUserRequest: CreateUserRequest): CreatedUserResponse {
+    val logger: Logger = LoggerFactory.getLogger(AuthServiceImpl::class.java)
+    override fun createAccount(createUserRequest: CreateUserRequest): CreatedUserResponse {
 
         return runCatching {
-            validateAccountExists(creeateUserRequest.email)
+            verifyAccountAlreadyExistsAndThrowException(createUserRequest.email)
 
-            val encodedPassword = passwordEncoder.encode(creeateUserRequest.password)
-            creeateUserRequest.password = encodedPassword
-            val accountDocument = creeateUserRequest.toDocument()
+            val encodedPassword = passwordEncoder.encode(createUserRequest.password)
+            createUserRequest.password = encodedPassword
+            val accountDocument = createUserRequest.toDocument()
 
             accountMongoRepository.save(accountDocument)
+
             CreatedUserResponse(
                 accountNumber = accountDocument.accountNumber,
                 name = accountDocument.name,
@@ -46,21 +50,35 @@ class AuthServiceImpl(
         }.getOrThrow()
     }
 
-    override fun generateToken(username: String): String {
-        return jwtService.generateToken(username)
+    override fun authenticateAccountAndReturnToken(email: String): String {
+        return runCatching {
+            val accountDocument = verifyAccountAlreadyExistsAndReturnAccount(email)
+
+            jwtService.generateToken(accountDocument.accountNumber)
+        }.onFailure { exception ->
+            logger.info("Error authenticating account: ${exception.message}")
+            when (exception) {
+                is AccountNotFoundException -> throw AccountNotFoundException(cause = exception.cause)
+            }
+        }.getOrThrow()
     }
 
     override fun validateToken(token: String) {
         jwtService.validateToken(token)
     }
 
-    private fun accountExists(email: String): Boolean {
-        return accountMongoRepository.existsByEmail(email)
+    private fun consultAccountInDatabase(email: String): AccountDocument? {
+        return accountMongoRepository.findByEmail(email)
     }
 
-    private fun validateAccountExists(email: String) {
-        if(accountExists(email)) {
+    private fun verifyAccountAlreadyExistsAndThrowException(email: String) {
+        if(consultAccountInDatabase(email) != null) {
+            logger.info("Account already exists")
             throw AccountAlreadyExistsException()
         }
+    }
+
+    private fun verifyAccountAlreadyExistsAndReturnAccount(email: String): AccountDocument {
+        return consultAccountInDatabase(email) ?: throw AccountNotFoundException()
     }
 }

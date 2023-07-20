@@ -7,7 +7,7 @@ import com.ticketconnect.accountservice.infrastructure.repository.RefreshTokenMo
 import com.ticketconnect.accountservice.service.RefreshTokenService
 import org.springframework.stereotype.Service
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 @Service
 class RefreshTokenServiceImpl(
@@ -18,11 +18,11 @@ class RefreshTokenServiceImpl(
     override fun createRefreshToken(email: String): RefreshTokenDocument {
 
         return runCatching {
-            val accountId = accountMongoRepository.findByEmail(email)!!.email
+            val accountNumber = accountMongoRepository.findByEmail(email)!!.accountNumber
             val expiryDate = Instant.now().plusMillis(600000)
 
             val refreshTokenDocument = RefreshTokenDocument(
-                accountId = accountId,
+                accountNumber = accountNumber,
                 token = UUID.randomUUID().toString(),
                 expiryDate = expiryDate
             )
@@ -35,4 +35,16 @@ class RefreshTokenServiceImpl(
         }.getOrThrow()
     }
 
+    override fun findByToken(token: String): RefreshTokenDocument {
+        return refreshTokenMongoRepository.findByToken(token)!!
+    }
+
+    override fun verifyExpiration(token: RefreshTokenDocument): RefreshTokenDocument {
+        if(token.expiryDate < Instant.now()) {
+            refreshTokenMongoRepository.delete(token)
+            throw RuntimeException("${token.token} Refresh token was expired. Please make a new signing request")
+        }
+
+        return token
+    }
 }

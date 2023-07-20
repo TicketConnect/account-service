@@ -4,4 +4,6 @@ import com.ticketconnect.accountservice.infrastructure.document.RefreshTokenDocu
 
 interface RefreshTokenService {
     fun createRefreshToken(email: String): RefreshTokenDocument
+    fun findByToken(token: String): RefreshTokenDocument
+    fun verifyExpiration(token: RefreshTokenDocument): RefreshTokenDocument
 }

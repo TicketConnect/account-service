@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface RefreshTokenMongoRepository : MongoRepository<RefreshTokenDocument, String> {
     fun findByAccountId(accountId: String): RefreshTokenDocument?
+    fun findByToken(token: String): RefreshTokenDocument?
 }

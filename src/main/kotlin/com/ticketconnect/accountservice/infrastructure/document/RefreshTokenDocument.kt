@@ -5,7 +5,7 @@ import java.time.Instant
 
 @Document(collection = "refresh_token")
 data class RefreshTokenDocument(
-    val accountId: String,
+    val accountNumber: String,
     val token: String,
     val expiryDate: Instant
 )

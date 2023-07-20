@@ -10,22 +10,22 @@ import java.util.*
 @Service
 class JwtService {
 
-    private val expirationDateInMillisSecond = Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)
+    private val expirationDateInMillisSecond = Date(System.currentTimeMillis() + 1000 * 60 * 2)
     private val issueDateInMillisSecond = Date(System.currentTimeMillis())
 
     fun validateToken(token: String) {
         Jwts.parser().setSigningKey(getSignKey()).parseClaimsJws(token)
     }
 
-    fun generateToken(username: String): String {
+    fun generateToken(subject: String): String {
         val claims: Map<String, Any> = HashMap()
-        return createToken(claims, username)
+        return createToken(claims, subject)
     }
 
-    private fun createToken(claims: Map<String, Any>, username: String): String {
+    private fun createToken(claims: Map<String, Any>, subject: String): String {
         return Jwts.builder()
             .setClaims(claims)
-            .setSubject(username)
+            .setSubject(subject)
             .setIssuedAt(issueDateInMillisSecond)
             .setExpiration(expirationDateInMillisSecond)
             .signWith(SignatureAlgorithm.HS256, getSignKey())

@@ -1,6 +1,7 @@
 package com.ticketconnect.accountservice.web.config.exception
 
 import com.ticketconnect.accountservice.commons.exception.AccountAlreadyExistsException
+import com.ticketconnect.accountservice.commons.exception.AccountNotFoundException
 import com.ticketconnect.accountservice.commons.exception.BaseException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.Ordered
@@ -26,5 +27,18 @@ class RestExceptionHandler {
         )
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse)
+    }
+
+    @ExceptionHandler(AccountNotFoundException::class)
+    fun handleBadRequestException(exception: BaseException, request: HttpServletRequest): ResponseEntity<Any> {
+
+        val errorResponse = ErrorResponse(
+            message = exception.message!!,
+            statusCode = HttpStatus.BAD_REQUEST.value(),
+            path = request.requestURI,
+            timestamp = LocalDateTime.now()
+        )
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 }

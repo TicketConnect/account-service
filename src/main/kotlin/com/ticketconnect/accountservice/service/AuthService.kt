@@ -5,6 +5,6 @@ import com.ticketconnect.accountservice.web.response.CreatedUserResponse
 
 interface AuthService {
     fun createAccount(createUserRequest: CreateUserRequest): CreatedUserResponse
-    fun generateToken(username: String): String
+    fun authenticateAccountAndReturnToken(email: String): String
     fun validateToken(token: String)
 }
