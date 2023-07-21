@@ -1,7 +1,7 @@
 package com.ticketconnect.accountservice.web.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.ticketconnect.accountservice.infrastructure.document.AccountDocument
+import com.ticketconnect.accountservice.application.infrastructure.database.document.AccountDocument
 import jakarta.validation.constraints.NotBlank
 import java.util.*
 

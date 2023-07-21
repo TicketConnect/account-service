@@ -11,6 +11,10 @@ spring:
     import:
       - optional:classpath:./variables-local.properties
       - optional:configserver:http://localhost:8088
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+
 
 springdoc:
   swagger-ui:

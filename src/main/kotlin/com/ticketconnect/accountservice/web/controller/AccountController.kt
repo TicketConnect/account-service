@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
 interface AccountController {
-
     @PostMapping("/register")
     fun createAccount(@RequestBody createUserRequest: CreateUserRequest): ResponseEntity<CreatedUserResponse>
 
@@ -23,16 +22,4 @@ interface AccountController {
 
     @PostMapping("/refresh-token")
     fun refreshToken(@RequestBody refreshTokenRequest: RefreshTokenRequest): ResponseEntity<JwtResponse>
-
-//    @GetMapping
-//    fun getAccount(): ResponseEntity<String>
-//
-//    @PutMapping
-//    fun changeEmail(): ResponseEntity<String>
-//
-//    @PutMapping
-//    fun changePassword(): ResponseEntity<String>
-//
-//    @DeleteMapping
-//    fun deleteAccount(): ResponseEntity<String>
 }

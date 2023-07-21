@@ -33,18 +33,17 @@ extra["springCloudVersion"] = "2022.0.3"
 dependencies {
 
 	// Spring Boot
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 	implementation("org.springframework.boot:spring-boot-starter-web") {
 		exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
 	}
 	implementation("org.springframework.boot:spring-boot-starter-undertow")
+	implementation("org.springframework.kafka:spring-kafka")
 
 	// Kotlin
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-	implementation("ch.qos.logback:logback-classic:1.4.8")
 
 	// Spring Cloud
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
@@ -77,6 +76,8 @@ dependencies {
 
 	// Others
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	implementation("ch.qos.logback:logback-classic:1.4.8")
+
 }
 
 dependencyManagement {
