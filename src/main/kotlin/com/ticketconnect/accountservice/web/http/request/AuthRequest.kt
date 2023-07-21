@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.web.request
+package com.ticketconnect.accountservice.web.http.request
 
 data class AuthRequest(
     val email: String,

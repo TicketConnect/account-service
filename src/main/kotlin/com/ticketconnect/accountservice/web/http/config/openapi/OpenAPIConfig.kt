@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.web.config.openapi
+package com.ticketconnect.accountservice.web.http.config.openapi
 
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.SpecVersion

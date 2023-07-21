@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.web.request
+package com.ticketconnect.accountservice.web.http.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.ticketconnect.accountservice.application.infrastructure.database.document.AccountDocument

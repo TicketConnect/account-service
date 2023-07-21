@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.web.config.exception
+package com.ticketconnect.accountservice.web.http.config.exception
 
 import java.time.LocalDateTime
 

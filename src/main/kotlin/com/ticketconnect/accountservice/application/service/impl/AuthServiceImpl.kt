@@ -3,9 +3,9 @@ package com.ticketconnect.accountservice.application.service.impl
 import com.ticketconnect.accountservice.commons.exception.AccountAlreadyExistsException
 import com.ticketconnect.accountservice.commons.exception.AccountNotFoundException
 import com.ticketconnect.accountservice.application.infrastructure.database.document.AccountDocument
-import com.ticketconnect.accountservice.web.request.CreateUserRequest
-import com.ticketconnect.accountservice.web.request.CreateUserRequest.Companion.toDocument
-import com.ticketconnect.accountservice.web.response.CreatedUserResponse
+import com.ticketconnect.accountservice.web.http.request.CreateUserRequest
+import com.ticketconnect.accountservice.web.http.request.CreateUserRequest.Companion.toDocument
+import com.ticketconnect.accountservice.web.http.response.CreatedUserResponse
 import com.ticketconnect.accountservice.application.infrastructure.database.repository.AccountMongoRepository
 import com.ticketconnect.accountservice.application.security.JwtService
 import com.ticketconnect.accountservice.application.service.AuthService

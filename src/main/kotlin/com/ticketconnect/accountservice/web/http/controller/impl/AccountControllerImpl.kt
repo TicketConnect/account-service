@@ -1,14 +1,14 @@
-package com.ticketconnect.accountservice.web.controller.impl
+package com.ticketconnect.accountservice.web.http.controller.impl
 
 import com.ticketconnect.accountservice.commons.log.LoggableClass
 import com.ticketconnect.accountservice.application.service.AuthService
 import com.ticketconnect.accountservice.application.service.RefreshTokenService
-import com.ticketconnect.accountservice.web.controller.AccountController
-import com.ticketconnect.accountservice.web.request.AuthRequest
-import com.ticketconnect.accountservice.web.request.CreateUserRequest
-import com.ticketconnect.accountservice.web.request.RefreshTokenRequest
-import com.ticketconnect.accountservice.web.response.CreatedUserResponse
-import com.ticketconnect.accountservice.web.response.JwtResponse
+import com.ticketconnect.accountservice.web.http.controller.AccountController
+import com.ticketconnect.accountservice.web.http.request.AuthRequest
+import com.ticketconnect.accountservice.web.http.request.CreateUserRequest
+import com.ticketconnect.accountservice.web.http.request.RefreshTokenRequest
+import com.ticketconnect.accountservice.web.http.response.CreatedUserResponse
+import com.ticketconnect.accountservice.web.http.response.JwtResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager

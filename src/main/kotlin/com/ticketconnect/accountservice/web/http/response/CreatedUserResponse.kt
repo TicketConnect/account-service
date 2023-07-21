@@ -1,4 +1,4 @@
-package com.ticketconnect.accountservice.web.response
+package com.ticketconnect.accountservice.web.http.response
 
 
 data class CreatedUserResponse(
