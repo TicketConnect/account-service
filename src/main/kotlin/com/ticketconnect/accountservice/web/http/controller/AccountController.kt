@@ -17,7 +17,7 @@ interface AccountController {
     @PostMapping("/login")
     fun login(@RequestBody authRequest: AuthRequest): ResponseEntity<JwtResponse>
 
-    @PostMapping("/validade")
+    @PostMapping("/validate")
     fun validateToken(@RequestParam("token") token: String): ResponseEntity<String>
 
     @PostMapping("/refresh-token")
